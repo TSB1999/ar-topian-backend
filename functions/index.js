@@ -3,8 +3,9 @@ const app = require("express")();
 
 const FBAuth = require("./util/fb_auth");
 
-app.get("/hello", (req, res) => {
-  return res.json({ message: "hello world" });
-});
+const { login, register } = require("./handlers/users");
+
+app.post("/register", register);
+app.post("/login", login);
 
 exports.api = functions.region("europe-west1").https.onRequest(app);
