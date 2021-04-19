@@ -33,3 +33,5 @@ export const fbAuth = (req: any, res: any, next: any) => {
       return res.status(400).json(err);
     });
 };
+
+export default fbAuth;

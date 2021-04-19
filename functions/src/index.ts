@@ -3,11 +3,16 @@ import * as express from "express";
 
 const app = express();
 
-// import FBAuth from "./util/fb_auth";
+import FBAuth from "./util/fbAuth";
 
 import { login, register } from "./handlers/users";
+import { getAllItems, addItem } from "./handlers/items";
 
 app.post("/register", register);
 app.post("/login", login);
+
+app.post("/item", FBAuth, addItem);
+app.get("/items", getAllItems);
+//shop item routes --> copy card  route and edit
 
 export const api = functions.region("europe-west1").https.onRequest(app);
