@@ -1,4 +1,4 @@
-const { db } = require("../util/admin");
+import db from "../util/admin";
 
 export const getAllItems = (req: any, res: any) => {
   db.collection("items")
@@ -22,6 +22,7 @@ export const addItem = (req: any, res: any) => {
     medium: req.body.medium,
     large: req.body.large,
     extra_large: req.body.extra_large,
+    price: req.body.price,
     addedAt: new Date().toISOString(),
   };
 

@@ -1,4 +1,5 @@
-import { db, admin } from "./admin";
+import * as admin from "firebase-admin";
+import db from "./admin";
 
 export const fbAuth = (req: any, res: any, next: any) => {
   let idToken;

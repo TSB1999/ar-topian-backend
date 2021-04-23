@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import { db } from "../util/admin";
+import db from "../util/admin";
 import config from "../util/config";
 
 import {
