@@ -16,6 +16,7 @@ export const getAllItems = (req: any, res: any) => {
 
 export const addItem = (req: any, res: any) => {
   const newItem = {
+    image: req.body.image,
     type: req.body.type,
     name: req.body.name,
     small: req.body.small,
@@ -28,6 +29,24 @@ export const addItem = (req: any, res: any) => {
 
   db.collection("items")
     .add(newItem)
+    .then((doc: any) => {
+      res.json({ message: `document ${doc.id} created succesfully` });
+    })
+    .catch((err: any) => {
+      // if(err == "auth/argument-error") some error about having the wrong authentication
+      res.status(500).json({ error: "something went wrong" });
+      console.error(err);
+    });
+};
+
+export const addOrder = (req: any, res: any) => {
+  const newOrder = {
+    user: req.user.username,
+    order: req.body.order,
+  };
+
+  db.collection("orders")
+    .add(newOrder)
     .then((doc: any) => {
       res.json({ message: `document ${doc.id} created succesfully` });
     })
