@@ -102,3 +102,31 @@ export const register = (req: any, res: any) => {
       }
     });
 };
+
+interface UserObject {
+  [key: string]: any;
+}
+
+export const getAuthenticatedUser = (req: any, res: any) => {
+  let userData: UserObject = {};
+  db.doc(`/users/${req.user.username}`)
+    .get()
+    .then((doc) => {
+      userData.credentials = doc.data();
+      return db
+        .collection("orders")
+        .where("user", "==", req.user.username)
+        .get();
+    })
+    .then((data) => {
+      userData.orders = [];
+      data.forEach((doc: any) => {
+        userData.orders.push(doc.data());
+      });
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
