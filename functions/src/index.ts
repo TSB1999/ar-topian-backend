@@ -5,12 +5,18 @@ const app = express();
 
 import FBAuth from "./util/fbAuth";
 
-import { login, register, getAuthenticatedUser } from "./handlers/users";
+import {
+  login,
+  register,
+  getAuthenticatedUser,
+  getUserDetails,
+} from "./handlers/users";
 import { getAllItems, addItem, addOrder } from "./handlers/items";
 
 app.post("/register", register);
 app.post("/login", login);
 app.get("/user", FBAuth, getAuthenticatedUser);
+app.get("/user/:username", getUserDetails);
 
 app.post("/item", FBAuth, addItem);
 app.post("/order", FBAuth, addOrder);

@@ -130,3 +130,31 @@ export const getAuthenticatedUser = (req: any, res: any) => {
       return res.status(500).json({ error: err.code });
     });
 };
+
+export const getUserDetails = (req: any, res: any) => {
+  let userData: UserObject = {};
+  db.doc(`/users/${req.params.username}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData.user = doc.data();
+        return db
+          .collection("orders")
+          .where("user", "==", req.params.username)
+          .get();
+      } else {
+        return res.status(404).json({ error: "User not found" });
+      }
+    })
+    .then((data) => {
+      userData.orders = [];
+      data.forEach((doc: any) => {
+        userData.orders.push(doc.data());
+      });
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
